@@ -17,6 +17,8 @@ class CreateForumThreadsTable extends Migration
             $table->foreign('forum_id')->references('id')->on('forums')->onDelete('cascade');
             $table->foreign('author_id')->references('id')->on('users');
             $table->string('name');
+            $table->boolean('locked')->default(false);
+            $table->boolean('pinned')->default(false);
             $table->timestamps();
         });
     }
