@@ -14,10 +14,12 @@ class CreateForumsTable extends Migration
     {
         Schema::create('forums', function (Blueprint $table) {
             $table->increments('id');
-            $table->foreign('category_id')->references('id')->on('forum_categories')->onDelete('cascade');
+            $table->integer('category_id')->unsigned();
             $table->string('name');
             $table->text('description')->nullable();
             $table->integer('priority')->nullable();
+            
+            $table->foreign('category_id')->references('id')->on('forum_categories')->onDelete('cascade');
         });
     }
 

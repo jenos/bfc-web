@@ -3,7 +3,7 @@
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
 
-class CreateForumThreadsTable extends Migration
+class CreateForumPostsTable extends Migration
 {
     /**
      * Run the migrations.
@@ -12,17 +12,17 @@ class CreateForumThreadsTable extends Migration
      */
     public function up()
     {
-        Schema::create('forum_threads', function (Blueprint $table) {
+        Schema::create('forum_posts', function (Blueprint $table) {
             $table->increments('id');
-            $table->integer('forum_id')->unsigned();
+            $table->integer('thread_id')->unsigned();
             $table->integer('author_id')->unsigned();
-            $table->string('name');
-            $table->boolean('locked')->default(false);
-            $table->boolean('pinned')->default(false);
+            $table->integer('editor_id')->unsigned()->nullable();
+            $table->longText('content');
             $table->timestamps();
             
-            $table->foreign('forum_id')->references('id')->on('forums')->onDelete('cascade');
+            $table->foreign('thread_id')->references('id')->on('forum_threads')->onDelete('cascade');
             $table->foreign('author_id')->references('id')->on('users');
+            $table->foreign('editor_id')->references('id')->on('users');
         });
     }
 
@@ -33,6 +33,6 @@ class CreateForumThreadsTable extends Migration
      */
     public function down()
     {
-        Schema::drop('forum_threads');
+        Schema::drop('forum_posts');
     }
 }

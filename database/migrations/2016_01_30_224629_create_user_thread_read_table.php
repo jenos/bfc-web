@@ -3,7 +3,7 @@
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
 
-class CreateForumPostsTable extends Migration
+class CreateUserThreadReadTable extends Migration
 {
     /**
      * Run the migrations.
@@ -12,12 +12,12 @@ class CreateForumPostsTable extends Migration
      */
     public function up()
     {
-        Schema::create('forum_posts', function (Blueprint $table) {
-            $table->increments('id');
+        Schema::create('user_thread_read', function (Blueprint $table) {
+            $table->integer('user_id')->unsigned();
+            $table->integer('thread_id')->unsigned();
+            
+            $table->foreign('user_id')->references('id')->on('users')->onDelete('cascade');
             $table->foreign('thread_id')->references('id')->on('forum_threads')->onDelete('cascade');
-            $table->foreign('author_id')->references('id')->on('users');
-            $table->foreign('editor_id')->references('id')->on('users');
-            $table->longText('content');
             $table->timestamps();
         });
     }
@@ -29,6 +29,6 @@ class CreateForumPostsTable extends Migration
      */
     public function down()
     {
-        Schema::drop('forum_posts');
+        Schema::drop('user_thread_read');
     }
 }
